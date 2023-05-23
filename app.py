@@ -1,21 +1,27 @@
 from flask import Flask, request, url_for, redirect, render_template
 import pickle
 import numpy as np
+import webbrowser as wb
+from threading import Timer
 
 app = Flask(__name__)
 
 model = pickle.load(open('model.pkl','rb'))
 
 @app.route('/')
-def start():
-    return render_template("car_price.html")
+def init():
+    return render_template('car_predict.html')
+
+@app.route('/select_model', methods=['POST','GET'])
+def select_model():
+    return render_template('car_predict.html')
 
 @app.route('/predict', methods=['POST','GET'])
 def predict():
     try:
         int_features=[int(x) for x in request.form.values()]
     except:
-        return render_template('car_price.html', pred = 'Invalid Input.')
+        return render_template('car_predict.html', pred = 'Invalid Input.')
 
     final=[np.array(int_features)]
     
@@ -28,9 +34,11 @@ def predict():
     output = '{0:.{1}f}'.format(prediction[0][1], 2)
 
     if output > str(0.5):
-        return render_template('car_price.html', pred = 'You are getting scammed. Predicted price is {}.'.format(output))
+        return render_template('car_predict.html', pred = 'You are getting scammed. Predicted price is {}.'.format(output))
     else:
-        return render_template('car_price.html', pred = 'Your are not getting scammed. Predicted is {}.'.format(output))
+        return render_template('car_predict.html', pred = 'Your are not getting scammed. Predicted is {}.'.format(output))
 
 if __name__ == '__main__':
+    # Timer(1, wb.open_new("http:localhost:5000/")).start()
+    # app.run(debug=False)
     app.run(debug=True)

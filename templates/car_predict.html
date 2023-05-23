@@ -1,14 +1,17 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>Starter Template - Materialize</title>
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="./static/css2/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script> 
   </head>
+
   <body>
     <nav class="light-blue lighten-1" role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">ECS171 Team 21</a>
@@ -18,13 +21,24 @@
       <div class="container">
         <br><br>
         <h1 class="header center orange-text">Car Scam Prevention</h1>
+        <form action="/select_model", method="POST">
+          <div class="input-field col s3">
+            <select name = "select", id = "select", onchange="this.form.submit()">
+                <option value="" disabled selected>Choose model</option>
+                <option value="1">Model1</option>
+                <option value="2">Model2</option>
+                <option value="3">Model3</option>
+            </select>
+            <label>Select Model</label>
+          </div>
+        </form>
         <div class="row center">
-          <h5 class="header col s12 light">Predict the True Price of Car
+          <h5 class="header col s12 light">Predict True Value
             <br>
           </h5>
         </div>
         <div class="row">
-          <form action='/predict' method="post" class="col s12">
+          <form action='/predict' method="POST" class="col s12">
             <div class="row">
               <div class="input-field col s4">
                 <label for="first_name"><b>Temperature</b></label>
@@ -51,16 +65,15 @@
         {{pred}}<br>
       </div>
     </div>
+
     <footer class="page-footer orange">
-      <div class="footer-copyright">
-        <div class="container">
-          Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-        </div>
-      </div>
     </footer>
-    <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src=".js/materialize.js"></script>
-    <script src="js/init.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $('select').material_select();
+      });
+    </script>
   </body>
+
 </html>
