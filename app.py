@@ -8,13 +8,21 @@ app = Flask(__name__)
 
 model = pickle.load(open('model.pkl','rb'))
 
+model = ''
+
 @app.route('/')
 def init():
     return render_template('car_predict.html')
 
 @app.route('/select_model', methods=['POST','GET'])
 def select_model():
-    return render_template('car_predict.html')
+    model = request.form.get('model', '')
+
+    # DEBUG
+    print(model)
+    # DEBUG
+
+    return render_template('car_predict.html', model=model)
 
 @app.route('/predict', methods=['POST','GET'])
 def predict():

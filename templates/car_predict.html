@@ -23,11 +23,11 @@
         <h1 class="header center orange-text">Car Scam Prevention</h1>
         <form action="/select_model", method="POST">
           <div class="input-field col s3">
-            <select name = "select", id = "select", onchange="this.form.submit()">
+            <select name = "model" onchange = this.form.submit()>
                 <option value="" disabled selected>Choose model</option>
-                <option value="1">Model1</option>
-                <option value="2">Model2</option>
-                <option value="3">Model3</option>
+                <option value="1" {% if model == "1" %} selected {% endif %}>Model1</option>
+                <option value="2" {% if model == "2" %} selected {% endif %}>Model2</option>
+                <option value="3" {% if model == "3" %} selected {% endif %}>Model3</option>
             </select>
             <label>Select Model</label>
           </div>
