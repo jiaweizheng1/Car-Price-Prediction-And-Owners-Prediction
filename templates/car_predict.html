@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Starter Template - Materialize</title>
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script> 
+  </head>
+
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">ECS 171: Team 21</a>
+      </div>
+    </nav>
+
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <br>
+        <h1 class="header center orange-text">Car Scam Prevention</h1>
+        <form action="/select_model", method="POST">
+          <label for = "model">Select Model</label>
+          <select id = "model" name = "model" onchange = this.form.submit()>
+            <option value="" disabled selected>Choose model</option>
+            <option value="1" {% if model == "1" %} selected {% endif %}>Model1</option>
+            <option value="2" {% if model == "2" %} selected {% endif %}>Model2</option>
+            <option value="3" {% if model == "3" %} selected {% endif %}>Model3</option>
+            <option value="4" {% if model == "4" %} selected {% endif %}>Model4</option>
+            <option value="5" {% if model == "5" %} selected {% endif %}>Model5</option>
+            <option value="6" {% if model == "6" %} selected {% endif %}>Model6</option>
+          </select>
+        </form>
+        <div class="row" {% if model == null or model == "4" or model == "5" or model == "6" %} style = "display:none" {% endif %}>
+          <div class="row center">
+            <h5 class="header col s12 light">Input Values
+            </h5>
+          </div>
+          <form action='/predict1' method="POST" class="col s12">
+            <div class="row">
+              <div class="input-field col s4">
+                <label for="input1"><b>Age</b></label>
+                <input id="input1" name="Age" placeholder="Age in Years" type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input2"><b>Previous Owners</b></label>
+                <input id="input2" name="Number of Previous Owners" placeholder="Number of Previous Owners"  type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input3"><b>Kms Driven</b></label>
+                <input id="input3" name="Kms Driven" placeholder="Kms" type="text">
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s4">
+                <label for="input4"><b>Fuel Type</b></label>
+                <input id="input4" name="Fuel Type" placeholder="Diesel or Petrol" type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input5"><b>Seller Type</b></label>
+                <input id="input5" name="Seller Type" placeholder="Dealer or Individual"  type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input6"><b>Tranmission Type</b></label>
+                <input id="input6" name="Tranmission Type" placeholder="Automatic or Manual" type="text">
+              </div>
+            </div>
+            <div class="row center">
+              <button type="submit" class="btn-large waves-effect waves-light orange">Predict Price of Car</button>
+            </div>
+          </form>
+        </div>
+        <div class="row" {% if model == null or model == "1" or model == "2" or model == "3" %} style = "display:none" {% endif %}>
+          <div class="row center">
+            <h5 class="header col s12 light">Input Values
+            </h5>
+          </div>
+          <form action='/predict2' method="POST" class="col s12">
+            <div class="row">
+              <div class="input-field col s4">
+                <label for="input1"><b>Age</b></label>
+                <input id="input1" name="Age" placeholder="Age in Years" type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input2"><b>Selling Price</b></label>
+                <input id="input2" name="Selling Price" placeholder="Selling Price in Dollars"  type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input3"><b>Kms Driven</b></label>
+                <input id="input3" name="Kms Driven" placeholder="Kms" type="text">
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s4">
+                <label for="input4"><b>Fuel Type</b></label>
+                <input id="input4" name="Fuel Type" placeholder="Diesel or Petrol" type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input5"><b>Seller Type</b></label>
+                <input id="input5" name="Seller Type" placeholder="Dealer or Individual"  type="text">
+              </div>
+              <div class="input-field col s4">
+                <label for="input6"><b>Tranmission Type</b></label>
+                <input id="input6" name="Tranmission Type" placeholder="Automatic or Manual" type="text">
+              </div>
+            </div>
+            <div class="row center">
+              <button type="submit" class="btn-large waves-effect waves-light orange">Predict Number of Previous Owners</button>
+            </div>
+          </form>
+        </div>
+        <div style="text-align:center">
+          {{pred}}
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        $('select').material_select();
+      });
+    </script>
+  </body>
+
+</html>
