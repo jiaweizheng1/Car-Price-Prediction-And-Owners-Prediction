@@ -6,7 +6,7 @@ from threading import Timer
 
 app = Flask(__name__)
 
-model1 = pickle.load(open('model.pkl','rb'))
+model4 = pickle.load(open('Classification_MLP.pkl','rb'))
 
 model = ''
 
@@ -18,62 +18,47 @@ def init():
 def select_model():
     global model 
     model = request.form.get('model', '')
-
-    # DEBUG
     print(model)
-    # DEBUG
 
     return render_template('car_predict.html', model = model)
 
 @app.route('/predict1', methods=['POST','GET'])
 def predict1():
     global model
-
-    try:
-        int_features=[int(x) for x in request.form.values()]
-    except:
-        return render_template('car_predict.html', pred = 'Invalid Input.', model = model)
-
-    final=[np.array(int_features)]
-    
-    # DEBUG
     print(model)
-    print(int_features)
-    print(final)
-    # DEBUG
-
-    prediction=model1.predict_proba(final)
-    output = '{0:.{1}f}'.format(prediction[0][1], 2)
-
-    if output > str(0.5):
-        return render_template('car_predict.html', pred = 'You are getting scammed. Predicted price is {}.'.format(output), model = model)
-    else:
-        return render_template('car_predict.html', pred = 'Your are not getting scammed. Predicted is {}.'.format(output), model = model)
     
 @app.route('/predict2', methods=['POST','GET'])
 def predict2():
     global model
-
-    try:
-        int_features=[int(x) for x in request.form.values()]
-    except:
-        return render_template('car_predict.html', pred = 'Invalid Input.', model = model)
-
-    final=[np.array(int_features)]
-    
-    # DEBUG
     print(model)
-    print(int_features)
-    print(final)
-    # DEBUG
 
-    prediction=model1.predict_proba(final)
-    output = '{0:.{1}f}'.format(prediction[0][1], 2)
+    age = request.form.get("Age")
+    sell_price = request.form.get("Selling Price")
+    kms = request.form.get("Kms Driven")
+    fuel = request.form.get("Fuel Type")
+    seller_type = request.form.get("Seller Type")
+    transmission = request.form.get("Transmission Type")
 
-    if output > str(0.5):
-        return render_template('car_predict.html', pred = 'You are getting scammed. Predicted price is {}.'.format(output), model = model)
-    else:
-        return render_template('car_predict.html', pred = 'Your are not getting scammed. Predicted is {}.'.format(output), model = model)
+    if model == "4":
+        age = (int(age) - 3) / 31
+        sell_price = (int(sell_price) - 20000) / 8900000
+        kms = (int(kms) - 1) / 806599
+        fuel_Diesel = 1 if fuel.lower() == "diesel" else 0
+        fuel_Other = 1 if fuel.lower() == "other" else 0
+        fuel_Petrol = 1 if fuel.lower() == "petrol" else 0
+        seller_type_Dealer = 1 if seller_type.lower() == "dealer" else 0
+        seller_type_Individual = 1 if seller_type.lower() == "individual" else 0
+        seller_type_Trustmark_Dealer = 1 if seller_type.lower() == "trustmark dealer" else 0
+        transmission_Automatic = 1 if transmission.lower() == "automatic" else 0
+        transmission_Manual = 1 if transmission.lower() == "manual" else 0
+
+        input_to_model4 = np.array([[age, sell_price, kms, fuel_Diesel, fuel_Other, fuel_Petrol, seller_type_Dealer, seller_type_Individual, seller_type_Trustmark_Dealer, transmission_Automatic, transmission_Manual]])
+
+        prediction_probs = model4.predict_proba(input_to_model4)
+
+        print(prediction_probs)
+        
+        return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is {}.'.format(prediction_probs.argmax() + 1), model = model)
 
 if __name__ == '__main__':
     Timer(1, wb.open_new("http:localhost:5000/")).start()
