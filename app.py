@@ -6,7 +6,7 @@ from threading import Timer
 
 app = Flask(__name__)
 
-model4 = pickle.load(open('Classification_MLP.pkl','rb'))
+model4 = pickle.load(open('models/Classification_MLP.pkl','rb'))
 
 model = ''
 
@@ -26,6 +26,8 @@ def select_model():
 def predict1():
     global model
     print(model)
+
+    
     
 @app.route('/predict2', methods=['POST','GET'])
 def predict2():
@@ -58,7 +60,7 @@ def predict2():
 
         print(prediction_probs)
         
-        return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is {}.'.format(prediction_probs.argmax() + 1), model = model)
+        return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is {0}.\n Prediction Probabilities are {1}.'.format(prediction_probs.argmax() + 1, prediction_probs), model = model)
 
 if __name__ == '__main__':
     Timer(1, wb.open_new("http:localhost:5000/")).start()
