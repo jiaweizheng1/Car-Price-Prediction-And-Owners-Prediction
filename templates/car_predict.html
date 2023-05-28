@@ -28,13 +28,11 @@
             <option value="" disabled selected>Choose model</option>
             <option value="1" {% if model == "1" %} selected {% endif %}>Model1</option>
             <option value="2" {% if model == "2" %} selected {% endif %}>Model2</option>
-            <option value="3" {% if model == "3" %} selected {% endif %}>Model3</option>
+            <option value="3" {% if model == "3" %} selected {% endif %}>Classification_knn</option>
             <option value="4" {% if model == "4" %} selected {% endif %}>Classification_MLP</option>
-            <option value="5" {% if model == "5" %} selected {% endif %}>Model5</option>
-            <option value="6" {% if model == "6" %} selected {% endif %}>Model6</option>
           </select>
         </form>
-        <div class="row" {% if model == null or model == "4" or model == "5" or model == "6" %} style = "display:none" {% endif %}>
+        <div class="row" {% if model == null or model == "3" or model == "4" %} style = "display:none" {% endif %}>
           <div class="row center">
             <h5 class="header col s12 light">Input Values
             </h5>
@@ -73,7 +71,7 @@
             </div>
           </form>
         </div>
-        <div class="row" {% if model == null or model == "1" or model == "2" or model == "3" %} style = "display:none" {% endif %}>
+        <div class="row" {% if model == null or model == "1" or model == "2" %} style = "display:none" {% endif %}>
           <div class="row center">
             <h5 class="header col s12 light">Input Values
             </h5>

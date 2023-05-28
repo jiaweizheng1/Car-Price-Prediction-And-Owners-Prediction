@@ -6,6 +6,8 @@ from threading import Timer
 
 app = Flask(__name__)
 
+model3 = pickle.load(open('models/Classification_knn.pkl','rb'))
+
 model4 = pickle.load(open('models/Classification_MLP.pkl','rb'))
 
 model = ''
@@ -40,28 +42,30 @@ def predict2():
     fuel = request.form.get("Fuel Type")
     seller_type = request.form.get("Seller Type")
     transmission = request.form.get("Transmission Type")
+    
+    age = (int(age) - 10.527189265536723) / 4.366565310455436
+    sell_price = (int(sell_price) - 463178.29996468924) / 535345.0704025673
+    kms = (int(kms) - 70613.98181497175) / 46726.0783381431
+    fuel_Diesel = 1 if fuel.lower() == "diesel" else 0
+    fuel_Other = 1 if fuel.lower() == "other" else 0
+    fuel_Petrol = 1 if fuel.lower() == "petrol" else 0
+    seller_type_Dealer = 1 if seller_type.lower() == "dealer" else 0
+    seller_type_Individual = 1 if seller_type.lower() == "individual" else 0
+    seller_type_Trustmark_Dealer = 1 if seller_type.lower() == "trustmark dealer" else 0
+    transmission_Automatic = 1 if transmission.lower() == "automatic" else 0
+    transmission_Manual = 1 if transmission.lower() == "manual" else 0
 
+    input_to_model = np.array([[age, sell_price, kms, fuel_Diesel, fuel_Other, fuel_Petrol, seller_type_Dealer, seller_type_Individual, seller_type_Trustmark_Dealer, transmission_Automatic, transmission_Manual]])
+
+    if model == "3":
+        prediction_probs = model3.predict_proba(input_to_model)
     if model == "4":
-        age = (int(age) - 3) / 31
-        sell_price = (int(sell_price) - 20000) / 8900000
-        kms = (int(kms) - 1) / 806599
-        fuel_Diesel = 1 if fuel.lower() == "diesel" else 0
-        fuel_Other = 1 if fuel.lower() == "other" else 0
-        fuel_Petrol = 1 if fuel.lower() == "petrol" else 0
-        seller_type_Dealer = 1 if seller_type.lower() == "dealer" else 0
-        seller_type_Individual = 1 if seller_type.lower() == "individual" else 0
-        seller_type_Trustmark_Dealer = 1 if seller_type.lower() == "trustmark dealer" else 0
-        transmission_Automatic = 1 if transmission.lower() == "automatic" else 0
-        transmission_Manual = 1 if transmission.lower() == "manual" else 0
-
-        input_to_model4 = np.array([[age, sell_price, kms, fuel_Diesel, fuel_Other, fuel_Petrol, seller_type_Dealer, seller_type_Individual, seller_type_Trustmark_Dealer, transmission_Automatic, transmission_Manual]])
-
-        prediction_probs = model4.predict_proba(input_to_model4)
-
-        if(prediction_probs.argmax() + 1 == 1):
-            return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 1.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
-        else:
-            return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 2 or more.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
+        prediction_probs = model4.predict_proba(input_to_model)
+    
+    if(prediction_probs.argmax() + 1 == 1):
+        return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 1.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
+    else:
+        return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 2 or more.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
 
 if __name__ == '__main__':
     Timer(1, wb.open_new("http:localhost:5000/")).start()
