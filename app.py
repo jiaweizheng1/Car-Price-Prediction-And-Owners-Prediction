@@ -58,7 +58,7 @@ def predict2():
 
         prediction_probs = model4.predict_proba(input_to_model4)
 
-        if(prediction_probs.argmax() + 1 == 0):
+        if(prediction_probs.argmax() + 1 == 1):
             return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 1.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
         else:
             return render_template('car_predict.html', pred = 'Predicted Number of Previous Owners is 2 or more.\n Prediction Probabilities are {0}.'.format(prediction_probs), model = model)
