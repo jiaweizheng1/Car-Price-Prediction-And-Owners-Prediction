@@ -26,8 +26,8 @@
           <label for = "model">Select Model</label>
           <select id = "model" name = "model" onchange = this.form.submit()>
             <option value="" disabled selected>Choose model</option>
-            <option value="1" {% if model == "1" %} selected {% endif %}>Model1</option>
-            <option value="2" {% if model == "2" %} selected {% endif %}>Model2</option>
+            <option value="1" {% if model == "1" %} selected {% endif %}>Regression_LinReg</option>
+            <option value="2" {% if model == "2" %} selected {% endif %}>Regression_RF</option>
             <option value="3" {% if model == "3" %} selected {% endif %}>Classification_knn</option>
             <option value="4" {% if model == "4" %} selected {% endif %}>Classification_MLP</option>
           </select>
@@ -59,7 +59,7 @@
               </div>
               <div class="input-field col s4">
                 <label for="input5"><b>Seller Type</b></label>
-                <input id="input5" name="Seller Type" placeholder="Trustmark Dealer or Dealer or Individual"  type="text">
+                <input id="input5" name="Seller Type" placeholder="Dealer or Individual"  type="text">
               </div>
               <div class="input-field col s4">
                 <label for="input6"><b>Tranmission Type</b></label>
@@ -98,7 +98,7 @@
               </div>
               <div class="input-field col s4">
                 <label for="input5"><b>Seller Type</b></label>
-                <input id="input5" name="Seller Type" placeholder="Trustmark Dealer or Dealer or Individual"  type="text">
+                <input id="input5" name="Seller Type" placeholder="Dealer or Individual"  type="text">
               </div>
               <div class="input-field col s4">
                 <label for="input6"><b>Tranmission Type</b></label>
